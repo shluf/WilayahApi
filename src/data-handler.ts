@@ -9,7 +9,7 @@ export interface Wilayah {
 }
 
 const dataWilayah: Wilayah[] = [];
-const csvFilePath = path.join(__dirname, '..', 'data', 'kode_wilayah_2023_v230711.csv');
+const csvFilePath = path.join(__dirname, 'data', 'kode_wilayah_2023_v230711.csv');
 
 export const muatData = (): Promise<void> => {
   return new Promise((resolve, reject) => {
