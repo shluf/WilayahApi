@@ -38,6 +38,8 @@ export const muatData = (): Promise<void> => {
   });
 };
 
+export const isDataLoaded = () => dataWilayah.length > 0;
+
 export const getProvinsi = () => dataWilayah.filter(d => d.level === 1);
 
 export const getKabupaten = (kodeProvinsi?: string) => {

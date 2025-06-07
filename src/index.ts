@@ -1,6 +1,5 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import { muatData } from './data-handler';
 import routes from './routes';
 import dotenv from 'dotenv';
 
@@ -34,19 +33,10 @@ app.get('/', (_req: Request, res: Response) => {
   );
 });
 
-if (process.env.NODE_ENV !== 'test') {
-  muatData()
-    .then(() => {
-      if (!process.env.VERCEL_ENV) {
-        app.listen(PORT, () => {
-          console.log(`🚀 Server berjalan di http://localhost:${PORT}`);
-        });
-      }
-    })
-    .catch(error => {
-      console.error('❌ Gagal menjalankan server:', error);
-      process.exit(1);
-    });
+if (!process.env.VERCEL_ENV) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is ready and running at http://localhost:${PORT}`);
+  });
 }
 
 export default app;

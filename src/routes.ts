@@ -1,7 +1,21 @@
-import { Router, Request, Response } from 'express';
-import { getProvinsi, getKabupaten, getKecamatan, getKelurahan } from './data-handler';
+import { Router, Request, Response, NextFunction } from 'express';
+import { getProvinsi, getKabupaten, getKecamatan, getKelurahan, muatData, isDataLoaded } from './data-handler';
 
 const router = Router();
+
+const ensureDataLoaded = async (_req: Request, _res: Response, next: NextFunction) => {
+  if (isDataLoaded()) {
+    return next();
+  }
+  try {
+    await muatData();
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+router.use(ensureDataLoaded);
 
 router.get('/provinsi', (req: Request, res: Response) => {
   res.json(getProvinsi());
