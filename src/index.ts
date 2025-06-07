@@ -34,13 +34,19 @@ app.get('/', (_req: Request, res: Response) => {
   );
 });
 
-muatData()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`🚀 Server berjalan di http://localhost:${PORT}`);
+if (process.env.NODE_ENV !== 'test') {
+  muatData()
+    .then(() => {
+      if (!process.env.VERCEL_ENV) {
+        app.listen(PORT, () => {
+          console.log(`🚀 Server berjalan di http://localhost:${PORT}`);
+        });
+      }
+    })
+    .catch(error => {
+      console.error('❌ Gagal menjalankan server:', error);
+      process.exit(1);
     });
-  })
-  .catch(error => {
-    console.error('❌ Gagal menjalankan server:', error);
-    process.exit(1);
-  });
+}
+
+export default app;
